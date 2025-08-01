@@ -1,4 +1,4 @@
-# IFAM
+<img width="432" height="14" alt="image" src="https://github.com/user-attachments/assets/506418ac-28cd-422c-8cdc-e28ffb4bd362" /># IFAM
 **I**ntegrating **F**unctional **A**nnotation information by genomic BLUP model with **M**ultiple random effects
 
 ## About
@@ -52,7 +52,7 @@ Rscript ${IFAM} --bfile ${bfile} --pheno ${pheno} --anno_folder ${anno_folder} -
 ````
 
 ### Tutorial for Evaluating the Annotations (EA)
-Please install [HIBLUP](https://www.hiblup.com/tutorials#running-hiblup) and [PLINK](https://zzz.bwh.harvard.edu/plink/) softwares in advance
+Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup) , [PLINK v1.90](https://zzz.bwh.harvard.edu/plink/) softwares , and the [optparse] R packages in advance
 ```bash
 # Set parameters
 EA=/Scripts/EA.R
@@ -78,7 +78,5 @@ Rscript ${EA} --bfile ${bfile} --pheno ${pheno} --anno ${anno} --anno_GRM ${anno
 ````
  
 # Citation
-For IFAM:
-...........   <br>
 For HIBLUP software:
 Lilin Yin, Haohao Zhang, Zhenshuang Tang, Dong Yin, Yuhua Fu, Xiaohui Yuan, Xinyun Li, Xiaolei Liu, Shuhong Zhao, HIBLUP: an integration of statistical models on the BLUP framework for efficient genetic evaluation using big genomic data, Nucleic Acids Research, Volume 51, Issue 8, 8 May 2023, Pages 3501–3512, https://doi.org/10.1093/nar/gkad074.
