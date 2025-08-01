@@ -98,7 +98,7 @@ args_list <- list(
               help = "INPUT: the position of the analyzed phenotype in columns of phenotype file (default:2)", 
               metavar = "character"),
   make_option("--VCmethod", type = "character", default = "AI",
-              help = "INPUT: the method of variance component estimation (default: AI method)", 
+              help = "INPUT: the algorithms (AI, EM, EMAI, HE, HI) for variance component estimation (default: AI method)", 
               metavar = "character"),
   make_option("--thread", type = "integer", default = "1",
               help = "INPUT: the number of threads (default: 1)", 

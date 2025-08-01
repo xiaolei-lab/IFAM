@@ -90,7 +90,7 @@ opt_random <- function(vc_list=NULL, randomMax=5){
   }
   random_list <- random_list[vapply(random_list, Negate(is.null), NA)]
   if(length(unlist(random_list)) != nrow(vars)){
-    cat(paste0("----- There are some annotations were romoved because the estimates were too small -----", "\n"))
+    cat(paste0("----- There are some annotations were removed because the estimates were too small -----", "\n"))
     print(setdiff(vars[,1], unlist(random_list)))
   }
   return(random_list)
@@ -125,7 +125,7 @@ args_list <- list(
               help = "INPUT: the maximium number of random effects in the model (default:5)", 
               metavar = "character"),
   make_option("--VCmethod", type = "character", default = "AI",
-              help = "INPUT: the method of variance component estimation (default: AI method)", 
+              help = "INPUT: the algorithms (AI, EM, EMAI, HE, HI) for variance component estimation (default: AI method)", 
               metavar = "character"),
   make_option("--thread", type = "integer", default = "1",
               help = "INPUT: the number of threads (default: 1)", metavar = "character"),
