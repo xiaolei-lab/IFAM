@@ -2,11 +2,10 @@
 **I**ntegrating **F**unctional **A**nnotation information by genomic BLUP model with **M**ultiple random effects
 
 ## About
-IFAM adopts a multiple random effects model to  integrate massive types of genomic functional annotation information such as enhancer, promoter, and transcription factor binding site et al. to improve the accuracy of genomic prediction for complex traits. In IFAM, functional annotation markers with similar contributions to phenotype variance are automatically merged to construct random effects, the association between markers and trait is utilized as another random effect. <br>
-Details of IFAM could be found in our [IFAM manuscript](https:****).
+IFAM extends the genomic best linear unbiased prediction (GBLUP) model with multiple random effects to accommodate massive types of functional annotations, these random effects include the groups of genetic markers from different functional annotations and an additional group of genetic markers that were associated significantly with objective traits, and the groups of genetic markers with similar contributions to phenotypic variance were automatically merged into one single random effect during variance assessment. For the aspect of speed, IFAM efficiently handles UKB scale datasets by using our previously proposed the phenotypic variance-covariance V matrix based "HE+PCG" strategy, which is pretty friendly to multiple random effect model since its computational complexity remains unchanged with the number of random effects increased. <br>
 
 ## Tutorial for IFAM
-In this softare, we use `**.R` scripts to make the usage of IFAM. 
+In this softare, we use `IFAM.R` scripts to make the usage of IFAM. 
 
 ### Input files and formats
 * Genotype file: IFAM only accept the genotype in PLINK binary format, e.g. demo.fam, demo.bim and demo.bed, please see more details about these files at PLINK user manual. Users can convert any other format of genotype (e.g. VCF, HapMap, PED/MAP) to binary format by PLINK2.
