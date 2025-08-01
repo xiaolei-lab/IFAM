@@ -1,6 +1,8 @@
 ### IFAM: **I**ntegrating **F**unctional **A**nnotation information by genomic BLUP model with **M**ultiple random effects
 
 
+
+
 ### Repos:
 **Github:** https://github.com/xiaolei-lab/IFAM  
 
@@ -10,6 +12,8 @@
 Questions, suggestions, and bug reports are welcome and appreciated: [xiaoleiliu@mail.hzau.edu.cn](mailto:xiaoleiliu@mail.hzau.edu.cn)
 
 
+
+
 ## About
 IFAM extends the genomic best linear unbiased prediction (GBLUP) model with multiple random effects to accommodate massive types of functional annotations, these random effects include the groups of genetic markers from different functional annotations and an additional group of genetic markers that were associated significantly with objective traits, and the groups of genetic markers with similar contributions to phenotypic variance were automatically merged into one single random effect during variance assessment. For the aspect of speed, IFAM efficiently handles UKB scale datasets by using our previously proposed the phenotypic variance-covariance V matrix based "HE+PCG" strategy, which is pretty friendly to multiple random effect model since its computational complexity remains unchanged with the number of random effects increased. <br>
 
@@ -17,36 +21,35 @@ IFAM extends the genomic best linear unbiased prediction (GBLUP) model with mult
 In this softare, we use `IFAM.R` script to make the usage of IFAM. WE STRONGLY RECOMMEND TO use this script in the Linux or Mac operating system.
 
 ### Input files and formats
-* Genotype file: IFAM only accept the genotype in PLINK binary format, e.g. demo.fam, demo.bim and demo.bed, please see more details about these files at PLINK user manual. Users can convert any other format of genotype (e.g. VCF, HapMap, PED/MAP) to binary format by PLINK2.
+* Genotype file: IFAM only accept the genotype in PLINK binary format, e.g. `./demo_data/geno/demo`, please see more details about these files at PLINK user manual. Users can convert any other format of genotype (e.g. VCF, HapMap, PED/MAP) to binary format by PLINK. 
 
-* Phenotype file (e.g. `demo_data/pheno.txt`): this file includes the phenotypic records, the environmental covariates, fixed and random effects. The first column must be the individual id, the second column is phenotypic records (optional), header should be included in the file.
+* Phenotype file: e.g. `./demo_data/phe/phenotype.txt`, this file includes the phenotypic records, the environmental covariates, fixed and random effects. The first column must be the individual id, the second column is phenotypic records (optional), header should be included in the file.
 
-* Annotation files: a list of the annotation files, the file name must be "annotation_names.txt" eg. "enhancer.txt". Each annotation file has only one column representing the position of annotationed SNPs, note that the genome version of the annotation file and genome file should be the same. If the annotation file is "*.bed" format, users can filtered all annotationed SNPs using bedtools or PLINK softwares.
+* Annotation files: a list of the annotation files, the file name must be "annotation_names.txt", e.g. `./demo_data/annotations/A1.txt`. Each annotation file has only one column representing the annotationed SNPs, note that the genome version of the annotation file and genome file should be the same. If the annotation file is "*.bed" format, users can filtered all annotationed SNPs using bedtools or PLINK softwares.
 ```bash
     # Using bedtools to filter annotationed SNPs
-    bedtools intersect -a demo.bed -b enhancer.bed -wa -u > enhancer.txt
+    bedtools intersect -a ./demo_data/geno/demo.bed -b ./demo_data/annotations/A1.bed -wa -u > A1.txt
     # Using PLINK to filter annotationed SNPs
-    plink --bfile demo --extract enhancer.bed --range --make-bed --out enhancer
-    awk '{print $2}' enhancer.bim > enhancer.txt
+    plink --bfile ./demo_data/geno/demo --extract ./demo_data/annotations/A1.plink.bed --range --make-bed --out A1
+    awk '{print $2}' A1.bim > A1.txt
 ````
 
-For other parapeters, please use the commond "--help"
 
 ### Tutorial for running the IFAM model
-Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup) software in advance
+Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup) software and the [optparse v1.7.5](https://cran.r-project.org/web/packages/optparse/index.html) R packages in advance
 ```bash
 # Set parameters
 IFAM=./Scripts/IFAM.R
 bfile=./demo_data/geno/demo
 pheno=./demo_data/phe/phenotype.txt
-anno_folder=./demo_data/annotations
+anno_folder=./demo_data/annotations/
 anno_spec=A8
-GRMs_folder=./demo_data/GRMs
+GRMs_folder=./demo_data/GRMs/
 weight=./demo_data/SNP_weight.txt
 VCfile=./demo_data/trait.vars
 outPath=./test/
 output_prefix=IFAM
-pheno_pos=2
+pheno_pos=3
 randomMax=5
 thread=2
 VCmethod=AI
@@ -58,22 +61,24 @@ Rscript ${IFAM} --bfile ${bfile} --pheno ${pheno} --anno_folder ${anno_folder} -
         --VCmethod ${VCmethod} --thread ${thread} --tmp_files ${tmp_files} --outPath ${outPath}\
         --VCfile ${VCfile} --output_prefix ${output_prefix}
 ````
+For other parapeters, please use the commond "--help"
+
 
 ### Tutorial for Evaluating the Annotations (EA)
-Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup) , [PLINK v1.90](https://zzz.bwh.harvard.edu/plink/) softwares, and the [optparse v1.7.5](https://cran.r-project.org/web/packages/optparse/index.html) R packages in advance
+Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup), [PLINK v1.90](https://zzz.bwh.harvard.edu/plink/), and the [optparse v1.7.5](https://cran.r-project.org/web/packages/optparse/index.html) R packages in advance
 ```bash
 # Set parameters
-EA=/Scripts/EA.R
-bfile=/demo_data/demo
-pheno=/demo_data/phenotype.txt
-anno=/demo_data/A1.txt,/demo_data/A2.txt,/demo_data/A3.txt,/demo_data/A4.txt,/demo_data/A5.txt,/demo_data/A6.txt,/demo_data/A7.txt
-anno_GRM=/demo_data/A1.GA,/demo_data/A2.GA,/demo_data/A3.GA,/demo_data/A4.GA,/demo_data/A5.GA,/demo_data/A6.GA,/demo_data/A7.GA
+EA=./Scripts/EA.R
+bfile=./demo_data/demo
+pheno=./demo_data/phenotype.txt
+anno=./demo_data/annotations/A1.txt,./demo_data/annotations/A2.txt,./demo_data/annotations/A3.txt,./demo_data/annotations/A4.txt,./demo_data/annotations/A5.txt,./demo_data/annotations/A6.txt,./demo_data/annotations/A7.txt
+anno_GRM=./demo_data/GRMs/A1.GA,./demo_data/GRMs/A2.GA,./demo_data/GRMs/A3.GA,./demo_data/GRMs/A4.GA,./demo_data/GRMs/A5.GA,./demo_data/GRMs/A6.GA,./demo_data/GRMs/A7.GA
 Pruning=FALSE
 indep_pairwise=1000,100,0.2
 plink=plink
-outPath=/output_path/test/
-output_prefix=test
-pheno_pos=2
+outPath=./test/
+output_prefix=IFAM_EA
+pheno_pos=3
 thread=2
 VCmethod=AI
 tmp_files=FALSE
@@ -84,6 +89,7 @@ Rscript ${EA} --bfile ${bfile} --pheno ${pheno} --anno ${anno} --anno_GRM ${anno
         --VCmethod ${VCmethod} --thread ${thread} --tmp_files ${tmp_files} --outPath ${outPath}\
         --output_prefix ${output_prefix}
 ````
+
  
 # Citation
 For HIBLUP software:
