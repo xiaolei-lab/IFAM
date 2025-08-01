@@ -115,11 +115,9 @@ args_list <- list(
               help = "INPUT: the filename of the results of variance component estimation 
               for all anotations", metavar = "character"),
   make_option("--outPath", type = "character", default = NULL,
-              help = "INPUT: the path of output", 
-              metavar = "character"), 
+              help = "INPUT: the path of output", metavar = "character"), 
   make_option("--output_prefix", type = "character", default = "IFAM",
-              help = "INPUT: the prefix of output (default:IFAM)", 
-              metavar = "character"), 
+              help = "INPUT: the prefix of output (default:IFAM)", metavar = "character"), 
   make_option("--pheno_pos", type = "integer", default = "2",
               help = "INPUT: the position of the analyzed phenotype in columns of phenotype file (default:2)", 
               metavar = "character"),
@@ -130,8 +128,7 @@ args_list <- list(
               help = "INPUT: the method of variance component estimation (default: AI method)", 
               metavar = "character"),
   make_option("--thread", type = "integer", default = "1",
-              help = "INPUT: the number of threads (default: 1)", 
-              metavar = "character"),
+              help = "INPUT: the number of threads (default: 1)", metavar = "character"),
   make_option("--tmp_files", type = "logical", default = TRUE,
               help = "INPUT: Whether temporary files are stored (default: TRUE)")
 )
@@ -159,26 +156,23 @@ if (!file.exists(opt$pheno)){
   cat(paste0(system(paste0("wc -l ", opt$pheno), intern=TRUE), "\n"))
 }
 
-if (!file.exists(opt$anno_folder)){
-  cat(paste0("ERROR: ", opt$anno_folder, " does not exist! Please check!\n"))
-  q()
-} else {
-  anno_str <- list.files(path=opt$anno_folder, pattern = '*.txt', full.names=TRUE, recursive=FALSE)
-  cat(paste0("Analysis ", length(anno_str), " annotations\n"))
-  anno_str_names <- c()
-  cat(paste0("The number of records within each annotation file: ", "\n"))
-  for (i in 1:length(anno_str)){
-    if (!file.exists(anno_str[i])){
-      cat(paste0("ERROR: ", anno_str[i], " does not exist! Please check!\n"))
-      q()
-    } else {
-      cat(paste0(system(paste0("wc -l ", anno_str[i]), intern=TRUE), "\n"))
-      anno_str_str <- unlist(strsplit(anno_str[i], "/"))
-      anno_str_names <- c(anno_str_names, gsub(".txt", "", anno_str_str[length(anno_str_str)]))
-    }
+
+anno_str <- list.files(path=opt$anno_folder, pattern = '*.txt', full.names=TRUE, recursive=FALSE)
+cat(paste0("Analysis ", length(anno_str), " annotations\n"))
+anno_str_names <- c()
+cat(paste0("The number of records within each annotation file: ", "\n"))
+for (i in 1:length(anno_str)){
+  if (!file.exists(anno_str[i])){
+    cat(paste0("ERROR: ", anno_str[i], " does not exist! Please check!\n"))
+    q()
+  } else {
+    cat(paste0(system(paste0("wc -l ", anno_str[i]), intern=TRUE), "\n"))
+    anno_str_str <- unlist(strsplit(anno_str[i], "/"))
+    anno_str_names <- c(anno_str_names, gsub(".txt", "", anno_str_str[length(anno_str_str)]))
   }
-  anno_all <- matrix(anno_str, ncol=1, dimnames = list(anno_str_names, "Annotations"))
 }
+anno_all <- matrix(anno_str, ncol=1, dimnames = list(anno_str_names, "Annotations"))
+
 
 if (is.null(opt$outPath)){
   cat(paste0("ERROR: the path of output does not exist! Please check! \n"))
@@ -186,7 +180,7 @@ if (is.null(opt$outPath)){
 }
 
 if (!is.null(opt$anno_spec)){
-  cat(paste0("the annotation: ", opt$anno_spec,", which doesn't participate in the optimization of random effects in the model!\n"))
+  cat(paste0("The annotation: ", opt$anno_spec,", which doesn't participate in the optimization of random effects in the model!\n"))
   anno_spec_str <- unlist(strsplit(opt$anno_spec, ","))
   anno_spec_names <- c()
   if (length(anno_spec_str) > 1){
@@ -243,12 +237,13 @@ if (!is.null(opt$VCfile)){
 ## phenotype file 
 phe_header <- unlist(strsplit(readLines(opt$pheno, n=1), "\t"))
 trait_name <- phe_header[opt$pheno_pos]
-cat(paste(paste(rep(" ", 5), collapse=""), " Analysis Trait: ", trait_name, sep=""), "\n")
+cat(paste("  ", "\n"))
+cat(paste("Analysis Trait: ", trait_name, sep=""), "\n")
 
 # genome map file
 map <- read.delim(bfile_str[2], head=FALSE)
 map_SNP <- map[,2]
-cat(paste(paste(rep(" ", 5), collapse=""), " The genome map file has ", nrow(map), " SNPs!", sep=""), "\n")
+cat(paste("The genome map file has ", nrow(map), " SNPs!", sep=""), "\n")
 
 # summary of annotations
 cat(paste(paste(rep("-", 27), collapse=""), " The summary information about annotations ", paste(rep("-", 26), collapse=""), sep=""), "\n")
@@ -282,26 +277,27 @@ write.table(overlap_matrix, paste0(opt$outPath, opt$output_prefix, ".overlaped.S
 
 
 start <- proc.time()
+cat(paste("  ", "\n"))
 cat(paste(paste(rep("-", 27), collapse=""), " Optimizing random effects ", paste(rep("-", 26), collapse=""), sep=""), "\n")
 
 ## Optimizing random effects in two scenarios
 if (is.null(opt$anno_spec)){
-  cat(paste(paste(rep(" ", 5), collapse=""), " There are no special annotations, so optimizing random effects using all annotations ", sep=""), "\n")
-  cat(paste(paste(rep(" ", 5), collapse=""), " Estimating variance components using multiple random effects model ", sep=""), "\n")
+  cat(paste("There are no special annotations, so optimizing random effects using all annotations ", sep=""), "\n")
+  cat(paste("Estimating variance components using multiple random effects model ", sep=""), "\n")
   if (!is.null(opt$VCfile)){
-    cat(paste(paste(rep(" ", 5), collapse=""), " The variance components of each annotation were provided ", sep=""), "\n")
+    cat(paste("The variance components of each annotation were provided ", sep=""), "\n")
     vars <- read.delim(opt$VCfile, head=TRUE)
     print(vars)
   } else{
     if (is.null(opt$GRMs_folder)){
-      cat(paste(paste(rep(" ", 5), collapse=""), " Constructing GRMs for each annotation ", sep=""), "\n")
+      cat(paste("Constructing GRMs for each annotation ", sep=""), "\n")
       GRMs <- make_GRM(set_snplists=anno_all, bfile=opt$bfile, weight=NULL, outPath=opt$outPath, output_prefix=opt$output_prefix, thread=opt$thread)
     } else{
-      cat(paste(paste(rep(" ", 5), collapse=""), " The GRM of each annotation was provided ", sep=""), "\n")
+      cat(paste("The GRM of each annotation was provided ", sep=""), "\n")
       GRMs <- paste(GRM_str2, collapse=",") 
       print(GRM_str2)
     }
-    cat(paste(paste(rep(" ", 5), collapse=""), " Estimating variance components ", sep=""), "\n")
+    cat(paste("Estimating variance components ", sep=""), "\n")
     VC_cmd <- paste0("hiblup --single-trait --threads ", opt$thread, " --pheno ", opt$pheno, " --pheno-pos ", opt$pheno_pos, 
     " --xrm ", GRMs, " --vc-method ", opt$VCmethod, " --out ", opt$outPath, opt$output_prefix, "_", trait_name, "_vc")
     system(VC_cmd, ignore.stdout=TRUE)
@@ -316,12 +312,12 @@ if (is.null(opt$anno_spec)){
   }      
   random_list <- opt_random(vc_list=vars, randomMax=opt$randomMax)
 }else{
-  cat(paste(paste(rep(" ", 5), collapse=""), " There have special annotations, which doesn't participate in the optimization of random effects ", sep=""), "\n")
+  cat(paste("There have special annotations, which doesn't participate in the optimization of random effects ", sep=""), "\n")
   index <- match(setdiff(rownames(anno_all), rownames(anno_spec_str2)), rownames(anno_all))
   anno_remaining <- matrix(anno_all[index,], ncol=1)
   rownames(anno_remaining) <- rownames(anno_all)[index]
   if (!is.null(opt$VCfile)){
-    cat(paste(paste(rep(" ", 5), collapse=""), " The variance components of each annotation were provided ", sep=""), "\n")
+    cat(paste("The variance components of each annotation were provided ", sep=""), "\n")
     vars <- read.delim(opt$VCfile, head=TRUE)
     if(nrow(vars) != nrow(anno_remaining)) {
       cat(paste0("ERROR: the number of variance components is wrong! Please check!\n"))
@@ -330,16 +326,16 @@ if (is.null(opt$anno_spec)){
     print(vars)
   }else{
     if (is.null(opt$GRMs_folder)){
-      cat(paste(paste(rep(" ", 5), collapse=""), " Constructing GRMs for each annotation ", sep=""), "\n")
+      cat(paste("Constructing GRMs for each annotation ", sep=""), "\n")
       GRMs <- make_GRM(set_snplists=anno_remaining, bfile=opt$bfile, weight=NULL, outPath=opt$outPath, output_prefix=opt$output_prefix, thread=opt$thread)
     } else{
-      cat(paste(paste(rep(" ", 5), collapse=""), " The GRM of each annotation was provided ", sep=""), "\n")
+      cat(paste("The GRM of each annotation was provided ", sep=""), "\n")
       GRM_remaining <- matrix(GRM_str2[index,], ncol=1)
       rownames(GRM_remaining) <- rownames(GRM_str2)[index]
       GRMs <- paste(GRM_remaining, collapse=",") 
       print(GRM_remaining)
     }
-    cat(paste(paste(rep(" ", 5), collapse=""), " Estimating variance components for remaining annotations ", sep=""), "\n")
+    cat(paste("Estimating variance components for remaining annotations ", sep=""), "\n")
     VC_cmd <- paste0("hiblup --single-trait --threads ", opt$thread, " --pheno ", opt$pheno, " --pheno-pos ", opt$pheno_pos, 
     " --xrm ", GRMs, " --vc-method ", opt$VCmethod, " --out ", opt$outPath, opt$output_prefix, "_", trait_name, "_vc")
     system(VC_cmd, ignore.stdout=TRUE)
@@ -360,9 +356,9 @@ if (is.null(opt$anno_spec)){
     random_list[[length(random_list) + i]] <- anno_spec_str2_s
   }
 }
-cat(paste(paste(rep(" ", 5), collapse=""), " The number of random effects after optimization: ", length(random_list), sep=""), "\n")
+cat(paste("The number of random effects after optimization: ", length(random_list), sep=""), "\n")
 end1 <- proc.time()
-cat(paste(paste(rep(" ", 5), collapse=""), " Optimization time: ",  end1[3]-start[3], sep=""), "s \n")
+cat(paste("Optimization time: ",  end1[3]-start[3], sep=""), "s \n")
 
 
 cat(paste(paste(rep("-", 10), collapse=""), " Predicting additive genetic values using multiple random effects model ", paste(rep("-", 10), collapse=""), sep=""), "\n")
@@ -373,7 +369,11 @@ for (i in 1:length(random_list)){
   random_set_snplist <- list()
   random_set_snplist_files[[i]] <- opt$outPath
   for(j in 1:length(random_set)){
-    random_set_snplist_files[[i]] <- paste0(random_set_snplist_files[[i]], ".", random_set[j])
+    if(j == 1){
+      random_set_snplist_files[[i]] <- paste0(random_set_snplist_files[[i]], opt$output_prefix, ".", random_set[j])
+    }else{
+      random_set_snplist_files[[i]] <- paste0(random_set_snplist_files[[i]], ".", random_set[j])
+    }
     random_set_file <- anno_all[rownames(anno_all)==random_set[j]]
     random_set_snplist[[j]] <- read.delim(random_set_file, head=FALSE)
   }
@@ -390,15 +390,15 @@ for (i in 1:length(random_list)){
 }
 random_set_snplist_files <- do.call(rbind, random_set_snplist_files)
 rownames(random_set_snplist_files) <- random_set_snplist_files_names
-cat(paste(paste(rep(" ", 5), collapse=""), " The list of random effects ", sep=""), "\n")
+cat(paste("The list of random effects:", sep=""), "\n")
 print(random_set_snplist_files)
-cat(paste(paste(rep(" ", 5), collapse=""), " Constructiing GRM for each random effect ", sep=""), "\n")
+cat(paste("Constructiing GRM for each random effect ", sep=""), "\n")
 if (is.null(opt$weight)){
   random_GRMs <- make_GRM(set_snplists=random_set_snplist_files, bfile=opt$bfile, weight=NULL, outPath=opt$outPath, output_prefix=opt$output_prefix, thread=opt$thread)
 } else {
   random_GRMs <- make_GRM(set_snplists=random_set_snplist_files, bfile=opt$bfile, weight=opt$weight, outPath=opt$outPath, output_prefix=opt$output_prefix, thread=opt$thread)
 }
-cat(paste(paste(rep(" ", 5), collapse=""), " Running Genomic BLUP model with multiple random effects ", sep=""), "\n")
+cat(paste("Running Genomic BLUP model with multiple random effects ", sep=""), "\n")
 multipleBLUP_cmd <- paste0("hiblup --single-trait --threads ",  opt$thread, " --pheno ", opt$pheno, " --pheno-pos ", opt$pheno_pos, 
 " --xrm ", random_GRMs, " --vc-method ", opt$VCmethod, " --out ", opt$outPath, output_prefix=opt$output_prefix, "_", trait_name)
 system(multipleBLUP_cmd, ignore.stdout=TRUE)
@@ -418,5 +418,5 @@ write.table(output, paste0(opt$outPath, output_prefix=opt$output_prefix, "_", tr
 cat(paste(paste(rep("-", 27), collapse=""), " IFAM is end! ", paste(rep("-", 26), collapse=""), sep=""), "\n")
 
 end2 <- proc.time()
-cat(paste(paste(rep(" ", 5), collapse=""), " Estimating genetic values time: ",  end2[3]-end1[3], sep=""), "s \n")
+cat(paste("Estimating genetic values time: ",  end2[3]-end1[3], sep=""), "s \n")
 cat(paste0("End time: ", Sys.time(), "\n"))
