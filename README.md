@@ -81,6 +81,8 @@ Rscript ${IFAM} --bfile ${bfile} --pheno ${pheno} --anno_folder ${anno_folder} -
 ````
 
 
+
+
 ### Tutorial for Evaluating the Annotations (EA)
 Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup), [PLINK v1.90](https://zzz.bwh.harvard.edu/plink/), and the [optparse v1.7.5](https://cran.r-project.org/web/packages/optparse/index.html) R packages in advance
 ```bash
