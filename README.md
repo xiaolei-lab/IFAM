@@ -27,11 +27,11 @@ In this softare, we use `IFAM.R` script to make the usage of IFAM. WE STRONGLY R
 
 * Annotation files: a list of the annotation files, the file name must be "annotation_names.txt", e.g. `./demo_data/annotations/A1.txt`. Each annotation file has only one column representing the annotationed SNPs, note that the genome version of the annotation file and genome file should be the same. If the annotation file is "*.bed" format, users can filtered all annotationed SNPs using bedtools or PLINK softwares.
 ```bash
-    # Using bedtools to filter annotationed SNPs
-    bedtools intersect -a ./demo_data/geno/demo.bed -b ./demo_data/annotations/A8.bed -wa -u > ./demo_data/test/A8.txt
-    # Using PLINK to filter annotationed SNPs
-    plink --bfile ./demo_data/geno/demo --extract ./demo_data/annotations/A8.plink.bed --range --make-bed --out ./demo_data/test/A8
-    awk '{print $2}' ./demo_data/test/A8.bim > ./demo_data/test/A8.txt
+# Using bedtools to filter annotationed SNPs
+bedtools intersect -a ./demo_data/geno/demo.bed -b ./demo_data/annotations/A8.bed -wa -u > ./demo_data/test/A8.txt
+# Using PLINK to filter annotationed SNPs
+plink --bfile ./demo_data/geno/demo --extract ./demo_data/annotations/A8.plink.bed --range --make-bed --out ./demo_data/test/A8
+awk '{print $2}' ./demo_data/test/A8.bim > ./demo_data/test/A8.txt
 ````
 
 
@@ -41,6 +41,7 @@ Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup) 
 ### Basic
 ```bash
 # Set parameters
+# The annotation files are stored in anno_folder
 IFAM=./Scripts/IFAM.R
 bfile=./demo_data/geno/demo
 pheno=./demo_data/phe/phenotype.txt
@@ -57,6 +58,7 @@ Rscript ${IFAM} --bfile ${bfile} --pheno ${pheno} --anno_folder ${anno_folder} \
 ### Advanced
 ```bash
 # Set parameters
+# the GRM of each annotation is stored in GRMs_folder
 IFAM=./Scripts/IFAM.R
 bfile=./demo_data/geno/demo
 pheno=./demo_data/phe/phenotype.txt
