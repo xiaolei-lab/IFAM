@@ -25,7 +25,7 @@ In this softare, we use `**.R` scripts to make the usage of IFAM.
 For other parapeters, please use the commond "--help"
 
 ### Tutorial for running the IFAM model
-Please install [HIBLUP](https://www.hiblup.com/tutorials#running-hiblup) software in advance
+Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup) software in advance
 ```bash
 # Set parameters
 IFAM=./Scripts/IFAM.R
@@ -52,7 +52,7 @@ Rscript ${IFAM} --bfile ${bfile} --pheno ${pheno} --anno_folder ${anno_folder} -
 ````
 
 ### Tutorial for Evaluating the Annotations (EA)
-Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup) , [PLINK v1.90](https://zzz.bwh.harvard.edu/plink/) softwares , and the [optparse] R packages in advance
+Please install [HIBLUP v1.1.0](https://www.hiblup.com/tutorials#running-hiblup) , [PLINK v1.90](https://zzz.bwh.harvard.edu/plink/) softwares, and the [optparse v1.7.5](https://cran.r-project.org/web/packages/optparse/index.html) R packages in advance
 ```bash
 # Set parameters
 EA=/Scripts/EA.R
