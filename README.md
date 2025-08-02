@@ -58,7 +58,7 @@ Rscript ${IFAM} --bfile ${bfile} --pheno ${pheno} --anno_folder ${anno_folder} \
 ### Advanced
 ```bash
 # Set parameters
-# the GRM of each annotation is stored in GRMs_folder, and the number of GRMs must be the same as that of annotations
+# the pre-constructed GRM of each annotation is stored in GRMs_folder, and the number of GRMs must be the same as that of annotations
 IFAM=./Scripts/IFAM.R
 bfile=./demo_data/geno/demo
 pheno=./demo_data/phe/phenotype.txt
