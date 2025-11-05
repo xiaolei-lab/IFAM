@@ -92,7 +92,7 @@ EA=./Scripts/EA.R
 bfile=./demo_data/geno/demo
 pheno=./demo_data/phe/phenotype.txt
 anno_folder=./demo_data/annotations/
-GRMs_folder=./demo_data/GRMs/
+anno_GRM=./demo_data/GRMs/
 Pruning=FALSE
 indep_pairwise=1000,100,0.2
 plink=plink
@@ -104,7 +104,7 @@ VCmethod=AI
 tmp_files=TRUE
 
 # Run EA
-Rscript ${EA} --bfile ${bfile} --pheno ${pheno} --anno_folder ${anno_folder} --GRMs_folder ${GRMs_folder} \
+Rscript ${EA} --bfile ${bfile} --pheno ${pheno} --anno_folder ${anno_folder} --anno_GRM ${anno_GRM} \
         --Pruning ${Pruning} --indep_pairwise ${indep_pairwise} --plink ${plink} --pheno_pos ${pheno_pos} \
         --VCmethod ${VCmethod} --thread ${thread} --tmp_files ${tmp_files} --outPath ${outPath} --output_prefix ${output_prefix}
 ````
