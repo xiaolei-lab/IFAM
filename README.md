@@ -113,3 +113,8 @@ Rscript ${EA} --bfile ${bfile} --pheno ${pheno} --anno_folder ${anno_folder} --a
 # Citation
 For HIBLUP software:
 Lilin Yin, Haohao Zhang, Zhenshuang Tang, Dong Yin, Yuhua Fu, Xiaohui Yuan, Xinyun Li, Xiaolei Liu, Shuhong Zhao, HIBLUP: an integration of statistical models on the BLUP framework for efficient genetic evaluation using big genomic data, Nucleic Acids Research, Volume 51, Issue 8, 8 May 2023, Pages 3501–3512, https://doi.org/10.1093/nar/gkad074.
+For IFAM software:
+Zhenshuang Tang, Xiong Xiong, Haohao Zhang, Dong Yin, Yuhua Fu, Yunxia Zhao, Jingjin Li, Yuan Quan, Xiang Zhou, Xinyun Li, Lilin Yin, Shuhong Zhao, and Xiaolei Liu, IFAM:Improving genomic prediction accuracy of complex traits by integrating massive types of functional annotation information, https://github.com/xiaolei-lab/IFAM, DOI: 10.5281/zenodo.18802710, 2026.
+
+
+
